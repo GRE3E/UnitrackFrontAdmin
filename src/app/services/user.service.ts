@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable , throwError } from 'rxjs';
 import { Reporte } from './reporte';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
 
 @Injectable({
