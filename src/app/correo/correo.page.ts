@@ -68,8 +68,8 @@ export class CorreoPage implements OnInit {
           if (code) {
             setTimeout(() => {
               this.sent = false;
-              this.router.navigate(['/contrasena'], {
-                queryParams: { email: this.email, code: code },
+              this.router.navigate(['/verificar'], {
+                queryParams: { email: this.email },
               });
             }, 2000);
           } else {

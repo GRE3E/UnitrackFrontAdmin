@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController,ToastController } from '@ionic/angular';
 import { EnvioCorreoService } from '../services/envio-correo.service';
 
@@ -16,10 +16,20 @@ export class VerificarPage implements OnInit {
   constructor(
     private userService: EnvioCorreoService,
     private navCtrl: NavController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.userService.currentEmail = params['email'] || '';
+      if (!this.userService.currentEmail) {
+        this.presentToast('No se proporcionó el correo electrónico.');
+        this.navCtrl.navigateRoot('/login');
+      }
+    });
+  }
 
   async presentToast(message: string, color: string = 'danger') {
     const toast = await this.toastController.create({
@@ -53,9 +63,10 @@ export class VerificarPage implements OnInit {
 
     this.userService.verifyVerificationCode(Number(this.verificationCode)).subscribe(
   response => {
-    if (response.success) {
-      localStorage.setItem('reset_code', String(this.verificationCode));
-      this.navCtrl.navigateForward('/contrasena');
+    if (response.message === 'Código verificado correctamente.') {
+      this.router.navigate(['/contrasena'], {
+        queryParams: { email: this.userService.currentEmail, code: this.verificationCode },
+      });
     } else {
       this.presentToast(response.error || 'Código de verificación incorrecto');
     }
