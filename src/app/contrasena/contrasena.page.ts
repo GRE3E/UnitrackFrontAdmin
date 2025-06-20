@@ -51,7 +51,7 @@ export class ContrasenaPage implements OnInit {
     }
 
     this.userService
-      .resetPassword(this.email, this.newPassword, this.code)
+      .resetPassword(this.email, this.code, this.newPassword)
       .subscribe(
         (response) => {
           this.presentToast('Contraseña actualizada con éxito', 'success');

@@ -34,18 +34,7 @@ export class SalidasPage implements OnInit {
     await toast.present();
   }
 
-  Reportes(): void {
-    this.userService.getReportesSalidas().subscribe(
-      data => {
-        this.reportes = data;
-      },
-      error => {
-         this.presentToast(error.message || 'Error al obtener los reportes de salidas');
-      }
-    );
-  }
   ngOnInit() {
-    this.Reportes();
 
     const currentUser = this.userService.getCurrentUser();
     if (currentUser) {
@@ -57,7 +46,7 @@ export class SalidasPage implements OnInit {
         this.reportes = data;
       },
       error: (error) => {
-        this.presentToast(error.message || 'Error al obtener las entradas');
+        this.presentToast(error.message || 'Error al obtener las salidas');
       },
     });
   }
