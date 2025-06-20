@@ -33,7 +33,7 @@ export class EnvioCorreoService {
     newPassword: string,
     code: string
   ): Observable<any> {
-    const body = { correo: correo, password: newPassword, code };
+    const body = { correo: correo, newPassword: newPassword, code };
     return this.http.post(`${this.apiUrl}admin/reset-password`, body);
   }
 }

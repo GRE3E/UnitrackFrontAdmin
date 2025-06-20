@@ -62,10 +62,20 @@ export class CorreoPage implements OnInit {
         if (response && response.message) {
           this.userService.currentEmail = this.email; // Guardar el correo actual
           this.sent = true;
-          setTimeout(() => {
-            this.sent = false;
-            this.navCtrl.navigateForward('/verificar');
-          }, 2000);
+          const codeMatch = response.message.match(/\d{6}/); // Extract the 6-digit code
+          const code = codeMatch ? codeMatch[0] : null;
+
+          if (code) {
+            setTimeout(() => {
+              this.sent = false;
+              this.router.navigate(['/contrasena'], {
+                queryParams: { email: this.email, code: code },
+              });
+            }, 2000);
+          } else {
+            this.presentToast('No se pudo extraer el código de verificación.');
+            this.isSubmitting = false;
+          }
           this.isSubmitting = false;
         } else {
           this.presentToast(response.error || 'Error al enviar el código');

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, ToastController } from '@ionic/angular';
 import { EnvioCorreoService } from '../services/envio-correo.service';
 
@@ -11,11 +11,15 @@ import { EnvioCorreoService } from '../services/envio-correo.service';
 export class ContrasenaPage implements OnInit {
   newPassword: string = '';
   isSubmitting = false; // Para prevenir envío doble
+  email: string = '';
+  code: string = '';
 
   constructor(
     private userService: EnvioCorreoService,
     private navCtrl: NavController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   async presentToast(message: string, color: string = 'danger') {
@@ -40,21 +44,17 @@ export class ContrasenaPage implements OnInit {
       return;
     }
 
-    const code = localStorage.getItem('reset_code');
-    if (!code) {
-      this.presentToast(
-        'No se encontró el código de verificación. Intenta nuevamente.'
-      );
+    if (!this.email || !this.code) {
+      this.presentToast('Faltan parámetros para restablecer la contraseña.');
       this.isSubmitting = false;
       return;
     }
 
     this.userService
-      .resetPassword(this.userService.currentEmail, this.newPassword, code)
+      .resetPassword(this.email, this.newPassword, this.code)
       .subscribe(
         (response) => {
           this.presentToast('Contraseña actualizada con éxito', 'success');
-          localStorage.removeItem('reset_code'); // Limpia el código después de usarlo
           this.navCtrl.navigateRoot('/login');
           this.isSubmitting = false;
         },
@@ -71,5 +71,14 @@ export class ContrasenaPage implements OnInit {
     localStorage.removeItem('reset_code');
     this.navCtrl.navigateRoot('/login');
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      this.email = params['email'] || '';
+      this.code = params['code'] || '';
+      if (!this.email || !this.code) {
+        this.presentToast('Faltan parámetros para restablecer la contraseña.');
+        this.navCtrl.navigateRoot('/login');
+      }
+    });
+  }
 }
