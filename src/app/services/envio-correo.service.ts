@@ -16,7 +16,7 @@ export class EnvioCorreoService {
   // Envía el código de verificación al correo del usuario
   sendVerificationCodee(correo: string): Observable<any> {
     return this.http.post(`${this.apiUrl}admin/forgot-password`, {
-      email: correo,
+      correo: correo,
     });
   }
 
