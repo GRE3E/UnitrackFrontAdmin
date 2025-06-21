@@ -8,31 +8,37 @@
     <div class="title">HOME</div>
   </div>
 
-
   <div class="main-content">
     <div class="admin-content">
+      <div class="smallimg-container">
+        <img src="/assets/ucv_gif_graduation.gif" alt="Ucv Logo Gif">
+      </div>
       <div class="welcome-container" *ngIf="currentUser">
-        <p class="welcome-text">HOLA {{ currentUser.nombres?.toUpperCase() }}, BIENVENIDO DE VUELTA!</p>
+        <p class="welcome-text">HOLA, BIENVENIDO DE VUELTA!</p>
         <!-- <ion-label class="nom">{{ nombrecompleto }}</ion-label> -->
-        <ion-label class="nom">{{ currentUser.nombres?.toUpperCase() + ' ' + currentUser.apellidos?.toUpperCase() }}</ion-label>
+        <ion-label class="nom">{{ currentUser.nombres?.toUpperCase() + ' ' + currentUser.apellidos?.toUpperCase()
+          }}</ion-label>
       </div>
 
       <div class="inputs-content-container">
 
         <div class="input-container" *ngIf="currentUser">
           <p>Correo Universitario:</p>
-          <ion-input placeholder="Editar Correo Universitario" class="sub-form" [(ngModel)]="currentUser.correo" disabled="{{isDisable}}" (ionInput)="onChangeEmail($event)"></ion-input>
+          <ion-input placeholder="Editar Correo Universitario" class="sub-form" [(ngModel)]="currentUser.correo"
+            disabled="{{isDisable}}" (ionInput)="onChangeEmail($event)"></ion-input>
         </div>
 
         <div class="containers-flex" *ngIf="currentUser">
           <div class="first-container">
             <div class="input-container">
               <p>Edad:</p>
-              <ion-input type="number" min="0" placeholder="Editar su Edad" class="sub-form" [(ngModel)]="currentUser.edad" disabled="{{isDisable}}" (ionInput)="onChangeAge($event)"></ion-input>
+              <ion-input type="number" min="0" placeholder="Editar su Edad" class="sub-form"
+                [(ngModel)]="currentUser.edad" disabled="{{isDisable}}" (ionInput)="onChangeAge($event)"></ion-input>
             </div>
             <div class="input-container">
               <p>Sexo:</p>
-              <ion-select placeholder="Seleccionar Sexo" class="sub-form" [(ngModel)]="currentUser.sexo" [disabled]="isDisable" (ionChange)="onChangeSex($event)">
+              <ion-select placeholder="Seleccionar Sexo" class="sub-form" [(ngModel)]="currentUser.sexo"
+                [disabled]="isDisable" (ionChange)="onChangeSex($event)">
                 <ion-select-option value="Hombre">Hombre</ion-select-option>
                 <ion-select-option value="Mujer">Mujer</ion-select-option>
               </ion-select>
@@ -40,8 +46,14 @@
           </div>
 
           <div class="second-container-inputs">
-            <button class="btn-edit" (click)="editUser()">Editar</button>
-            <button class="btn-save" (click)="saved()" [disabled]="isDisable">Guardar</button>
+            <button class="btn-edit" (click)="editUser()">
+              <span class="text">EDITAR</span>
+              <ion-icon name="pencil-outline" class="icon"></ion-icon>
+            </button>
+            <button class="btn-save" (click)="saved()" [disabled]="isDisable">
+              <span class="text">GUARDAR</span>
+              <ion-icon name="save-outline" class="icon"></ion-icon>
+            </button>
           </div>
         </div>
       </div>
