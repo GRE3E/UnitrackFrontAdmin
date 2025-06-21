@@ -30,10 +30,10 @@ export class EnvioCorreoService {
   // Restablece la contraseña del usuario
   resetPassword(
     correo: string,
-    newPassword: string,
-    code: string
+    code: string,
+    newPassword: string
   ): Observable<any> {
-    const body = { correo: correo, newPassword: newPassword, code };
+    const body = { correo, code, newPassword };
     return this.http.post(`${this.apiUrl}admin/reset-password`, body);
   }
 }
