@@ -32,30 +32,39 @@ export class ContrasenaPage implements OnInit {
     await toast.present();
   }
 
-  async resetPassword() {
-    if (!this.newPassword || !this.email || !this.code) {
-      console.log('Please enter all required fields.');
+  resetPassword() {
+    if (this.newPassword.length < 6) {
+      this.presentToast('La contraseña debe tener al menos 6 caracteres');
+      this.isSubmitting = false;
+      return;
+    }
+    if (this.newPassword.length > 50) {
+      this.presentToast('La contraseña no debe superar 50 caracteres');
+      this.isSubmitting = false;
       return;
     }
 
-    try {
-      const response = await this.userService
-        .resetPassword(this.email, this.code, this.newPassword)
-        .toPromise();
-      console.log('Password reset response:', response);
-      // Navigate to login page after successful password reset
-      this.navCtrl.navigateRoot('/login');
-    } catch (error: any) {
-      console.error('Error resetting password:', error);
-      let errorMessage = 'An unknown error occurred.';
-      if (error.error && error.error.message) {
-        errorMessage = error.error.message;
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      // You can use an Ionic alert or toast controller here to display the error to the user
-      alert(`Error: ${errorMessage}`);
+    if (!this.email || !this.code) {
+      this.presentToast('Faltan parámetros para restablecer la contraseña.');
+      this.isSubmitting = false;
+      return;
     }
+
+    this.userService
+      .resetPassword(this.email, this.code, this.newPassword)
+      .subscribe(
+        (response) => {
+          this.presentToast('Contraseña actualizada con éxito', 'success');
+          this.navCtrl.navigateRoot('/login');
+          this.isSubmitting = false;
+        },
+        (error) => {
+          this.presentToast(
+            error.message || 'Error al actualizar la contraseña'
+          );
+          this.isSubmitting = false;
+        }
+      );
   }
 
   cancelarProceso() {
