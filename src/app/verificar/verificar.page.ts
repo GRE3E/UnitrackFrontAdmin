@@ -65,7 +65,7 @@ export class VerificarPage implements OnInit {
   response => {
     if (response.message === 'Código verificado correctamente.') {
       this.router.navigate(['/contrasena'], {
-        queryParams: { email: this.userService.currentEmail, code: this.verificationCode },
+        queryParams: { email: this.userService.currentEmail, code: String(this.verificationCode) },
       });
     } else {
       this.presentToast(response.error || 'Código de verificación incorrecto');
