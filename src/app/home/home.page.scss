@@ -40,7 +40,7 @@ $image-header-light: url("/assets/header-background-w.svg");
   gap: 2em;
   border: 2px solid $color-white;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1120px) {
     margin: 60px 35px 0;
   }
 }
@@ -54,7 +54,7 @@ $image-header-light: url("/assets/header-background-w.svg");
   flex: 1;
   text-align: left;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1120px) {
     font-size: 24px;
   }
 }
@@ -151,7 +151,7 @@ $image-header-light: url("/assets/header-background-w.svg");
   animation: popupFadeIn 1.5s ease-out forwards;
   z-index: 10;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1120px) {
     display: none;
   }
 }
@@ -282,7 +282,7 @@ ion-select {
   padding: 5px 20px !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
   .smallimg-container {
     display: block;
     align-items: center;
